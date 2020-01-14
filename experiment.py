@@ -1,6 +1,6 @@
 """an experiment class to run the vacuum cleaning problem"""
-from agents import RandomizedReflexAgent
-from constants import NORTH, TURN, MOVE_FORWARD, CLEAN_SQUARE
+from agents import SimpleReflexAgent, RandomizedReflexAgent
+from constants import NORTH, TURN, MOVE_FORWARD, CLEAN_SQUARE, ROOM, EMPTY
 from environment import Environment
 
 
@@ -30,13 +30,18 @@ class Experiment:
 
         self.agent.turn_off()
         self.num_actions += 1
-        self.grid_object.print_grid()
+        # self.grid_object.print_grid()
         return self.grid_object.clean_cells, self.turns, self.num_actions
 
 
-grid1 = Environment(10)
-# agent1 = SimpleReflexAgent()
-agent1 = RandomizedReflexAgent()
-exp = Experiment(agent=agent1, grid=grid1)
+room = Environment(10, ROOM)
+agent1 = SimpleReflexAgent()
+agent2 = RandomizedReflexAgent()
+room_exp = Experiment(agent=agent2, grid=room)
 
-print(exp.run_experiment())
+grid = Environment(10, EMPTY)
+grid_exp = Experiment(agent=agent2, grid=grid)
+
+print(f"ROOM experiment on randomized agent results: {room_exp.run_experiment()}")
+
+print(f"GRID experiment on randomized agent results: {grid_exp.run_experiment()}")

@@ -93,22 +93,22 @@ class SimpleReflexAgent(Agent):
         # TODO: check all directions
         if direction == EAST:
             if grid[x_local][y_local + 1] == WALL:
-                print('direction is east')
+                # print('direction is east')
                 return True
 
         if direction == NORTH:
             if grid[x_local + 1][y_local] == WALL:
-                print('direction is north')
+                # print('direction is north')
                 return True
 
         if direction == WEST:
             if grid[x_local][y_local - 1] == WALL:
-                print('direction is west')
+                # print('direction is west')
                 return True
 
         if direction == SOUTH:
             if grid[x_local - 1][y_local] == WALL:
-                print('direction is south')
+                # print('direction is south')
                 return True
 
         return False
@@ -135,7 +135,7 @@ class SimpleReflexAgent(Agent):
         :return:
             None
         """
-        print('turning off')
+        # print('turning off')
         return None
 
     def move_forward(self, x, y, direction):
@@ -192,20 +192,17 @@ class SimpleReflexAgent(Agent):
         """
         if self.is_dirty(grid_object.grid, x, y):
             self.clean_square(grid_object, x, y)
-            print('cleaning square')
+            # print('cleaning square')
             return {'action': CLEAN_SQUARE, 'data': None}
 
         elif self.is_wall(grid_object.grid, x, y, direction):
             new_direction = self.turn_right(direction)
-            print(f'turning; new direction = {new_direction}')
+            # print(f'turning; new direction = {new_direction}')
             return {'action': TURN, 'data': new_direction}
 
         else:
-            # r = random.randint(1)
-            # if random.randint(1) == 1:
-            #     pass
             new_x, new_y = self.move_forward(x, y, direction)
-            print(f'moving forward; new location: x = {new_x}, y = {new_y}')
+            # print(f'moving forward; new location: x = {new_x}, y = {new_y}')
             return {'action': MOVE_FORWARD, 'data': (new_x, new_y)}
 
 
@@ -265,22 +262,22 @@ class RandomizedReflexAgent(Agent):
         # TODO: check all directions
         if direction == EAST:
             if grid[x_local][y_local + 1] == WALL:
-                print('direction is east')
+                # print('direction is east')
                 return True
 
         if direction == NORTH:
             if grid[x_local + 1][y_local] == WALL:
-                print('direction is north')
+                # print('direction is north')
                 return True
 
         if direction == WEST:
             if grid[x_local][y_local - 1] == WALL:
-                print('direction is west')
+                # print('direction is west')
                 return True
 
         if direction == SOUTH:
             if grid[x_local - 1][y_local] == WALL:
-                print('direction is south')
+                # print('direction is south')
                 return True
 
         return False
@@ -307,7 +304,7 @@ class RandomizedReflexAgent(Agent):
         :return:
             the agent's number of actions
         """
-        print('turning off')
+        # print('turning off')
         return True
 
     def move_forward(self, x, y, direction):
@@ -383,18 +380,18 @@ class RandomizedReflexAgent(Agent):
         """
         if self.is_dirty(grid_object.grid, x, y):
             self.clean_square(grid_object, x, y)
-            print('cleaning square')
+            # print('cleaning square')
             return {'action': CLEAN_SQUARE, 'data': None}
 
         elif self.is_wall(grid_object.grid, x, y, direction):
             if random.randint(0, 1) == 1:
-                print('turning right')
+                # print('turning right')
                 new_direction = self.turn_right(direction)
             else:
-                print('turning left')
+                # print('turning left')
                 new_direction = self.turn_left(direction)
 
-            print(f'turning; new direction = {new_direction}')
+            # print(f'turning; new direction = {new_direction}')
             return {'action': TURN, 'data': new_direction}
 
         else:
@@ -406,5 +403,5 @@ class RandomizedReflexAgent(Agent):
                 return {'action': TURN, 'data': new_direction}
 
             new_x, new_y = self.move_forward(x, y, direction)
-            print(f'moving forward; new location: x = {new_x}, y = {new_y}')
+            # print(f'moving forward; new location: x = {new_x}, y = {new_y}')
             return {'action': MOVE_FORWARD, 'data': (new_x, new_y)}

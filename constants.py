@@ -18,3 +18,9 @@ WALL = 'w'
 MOVE_FORWARD = 'move forward'
 TURN = 'turn'
 CLEAN_SQUARE = 'clean square'
+
+#####################
+# Environment Types #
+#####################
+EMPTY = 'empty grid'
+ROOM = 'four rooms'
