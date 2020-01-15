@@ -58,5 +58,5 @@ class Environment:
         self.grid[x][y] = CLEAN
 
 
-room = Environment(10, ROOM)
-room.print_grid()
+# room = Environment(10, ROOM)
+# room.print_grid()

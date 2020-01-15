@@ -12,6 +12,12 @@ DIRTY = 'd'
 CLEAN = 'c'
 WALL = 'w'
 
+###################
+# Turn Directions #
+###################
+RIGHT = 'right'
+LEFT = 'left'
+
 #################
 # Agent Actions #
 #################
