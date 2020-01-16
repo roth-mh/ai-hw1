@@ -1,6 +1,6 @@
 """an experiment class to run the vacuum cleaning problem"""
 from agents import SimpleReflexAgent, RandomizedReflexAgent, ModelBasedReflexAgent
-from constants import NORTH, TURN, MOVE_FORWARD, CLEAN_SQUARE, ROOM, EMPTY
+from constants import NORTH, TURN, MOVE_FORWARD, CLEAN_SQUARE, ROOM, EMPTY, TURN_OFF
 from environment import Environment
 
 
@@ -15,7 +15,7 @@ class Experiment:
         self.turns = 0
 
     def run_experiment(self):
-        while (self.agent.is_active(self.agent_x, self.agent_y) or self.num_actions < 2) and self.turns < 500:
+        while self.turns < 1000:
             self.turns += 1
             action_dict = self.agent.take_turn(self.grid_object, self.agent_x, self.agent_y, self.direction)
             if action_dict['action'] == TURN:
@@ -27,8 +27,12 @@ class Experiment:
                 self.num_actions += 1
                 self.agent_x = action_dict['data'][0]
                 self.agent_y = action_dict['data'][1]
+                print(f"new x: {self.agent_x}, new y: {self.agent_y}")
+            elif action_dict['action'] == TURN_OFF:
+                self.num_actions += 1
+                break
 
-        self.agent.turn_off()
+        # self.agent.turn_off()
         self.num_actions += 1
         self.grid_object.print_grid()
         return self.grid_object.clean_cells, self.turns, self.num_actions

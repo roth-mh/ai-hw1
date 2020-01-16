@@ -24,6 +24,7 @@ LEFT = 'left'
 MOVE_FORWARD = 'move forward'
 TURN = 'turn'
 CLEAN_SQUARE = 'clean square'
+TURN_OFF = 'turn off'
 
 #####################
 # Environment Types #
