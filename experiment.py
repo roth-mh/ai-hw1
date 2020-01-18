@@ -5,19 +5,19 @@ from environment import Environment
 
 
 class Experiment:
-    def __init__(self, agent, grid):
-        self.agent_x = 1
-        self.agent_y = 1
+    def __init__(self, agent, environment):
+        self.agent_x = 0
+        self.agent_y = 0
         self.direction = NORTH
         self.agent = agent
-        self.grid_object = grid
+        self.environment = environment
         self.num_actions = 0
         self.turns = 0
 
     def run_experiment(self):
-        while self.turns < 1000:
+        while self.turns < 200:
             self.turns += 1
-            action_dict = self.agent.take_turn(self.grid_object, self.agent_x, self.agent_y, self.direction)
+            action_dict = self.agent.take_turn(self.environment, self.agent_x, self.agent_y, self.direction)
             if action_dict['action'] == TURN:
                 self.num_actions += 1
                 self.direction = action_dict['data']
@@ -34,20 +34,20 @@ class Experiment:
 
         # self.agent.turn_off()
         self.num_actions += 1
-        self.grid_object.print_grid()
-        return self.grid_object.clean_cells, self.turns, self.num_actions
+        self.environment.print_grid()
+        return self.environment.clean_cells, self.turns, self.num_actions
 
 
 agent1 = SimpleReflexAgent()
 agent2 = RandomizedReflexAgent()
 agent3 = ModelBasedReflexAgent()
 
-room = Environment(10, ROOM)
-room_exp = Experiment(agent=agent2, grid=room)
+env_room = Environment(10, ROOM)
+room_exp = Experiment(agent=agent3, environment=env_room)
 
-grid = Environment(10, EMPTY)
-grid_exp = Experiment(agent=agent3, grid=grid)
+env_grid = Environment(10, EMPTY)
+grid_exp = Experiment(agent=agent1, environment=env_grid)
 
-# print(f"ROOM experiment on randomized agent results: {room_exp.run_experiment()}")
+print(f"ROOM experiment on randomized agent results: {room_exp.run_experiment()}")
 
-print(f"GRID experiment on randomized agent results: {grid_exp.run_experiment()}")
+# print(f"GRID experiment on randomized agent results: {grid_exp.run_experiment()}")
