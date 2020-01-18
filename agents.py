@@ -13,28 +13,28 @@ class Agent(ABC):
         pass
 
     # percepts:
-    def is_home(self, x_local, y_local):
+    def is_home(self, x, y):
         """
         determines if an agent has reached the starting cell
 
-        :param x_local: the agent's x location
-        :param y_local: the agent's y location
+        :param x: the agent's x location
+        :param y: the agent's y location
         :return:
             True, if the agent is at the starting coordinates
             False, otherwise
         """
-        if x_local == 0 and y_local == 0:
+        if x == 0 and y == 0:
             return True
         else:
             return False
 
-    def is_wall(self, grid_obj, x_local, y_local, direction):
+    def is_wall(self, grid_obj, x, y, direction):
         """
         percept to see if the agent is facing a wall
 
         :param grid_obj: the grid, an nxn array, being used
-        :param x_local: the x_location of the agent
-        :param y_local: the y_location of the agent
+        :param x: the x_location of the agent
+        :param y: the y_location of the agent
         :param direction: the direction of the agent
         :return:
             True, if the agent is facing a wall
@@ -46,68 +46,66 @@ class Agent(ABC):
             # the four rooms:
 
             # door 1
-            if x_local == 0 and y_local == 4 and direction == EAST:
+            if x == 0 and y == 4 and direction == EAST:
                 return False
-            if x_local == 0 and y_local == 5 and direction == WEST:
+            if x == 0 and y == 5 and direction == WEST:
                 return False
 
             # door 2
-            if x_local == 4 and y_local == 0 and direction == NORTH:
+            if x == 4 and y == 0 and direction == NORTH:
                 return False
-            if x_local == 5 and y_local == 0 and direction == SOUTH:
+            if x == 5 and y == 0 and direction == SOUTH:
                 return False
 
             # door 3
-            if x_local == 9 and y_local == 4 and direction == EAST:
+            if x == 9 and y == 4 and direction == EAST:
                 return False
-            if x_local == 9 and y_local == 5 and direction == WEST:
+            if x == 9 and y == 5 and direction == WEST:
                 return False
 
             # door 4
-            if x_local == 4 and y_local == 9 and direction == NORTH:
+            if x == 4 and y == 9 and direction == NORTH:
                 return False
-            if x_local == 5 and y_local == 9 and direction == SOUTH:
+            if x == 5 and y == 9 and direction == SOUTH:
                 return False
 
-            if x_local == 4 and direction == NORTH:
+            if x == 4 and direction == NORTH:
                 return True
-            if x_local == 5 and direction == SOUTH:
+            if x == 5 and direction == SOUTH:
                 return True
-            if y_local == 4 and direction == EAST:
+            if y == 4 and direction == EAST:
                 return True
-            if x_local == 5 and direction == WEST:
+            if x == 5 and direction == WEST:
                 return True
 
-        if x_local == 0 and direction == SOUTH:
+        if x == 0 and direction == SOUTH:
             return True
-        if y_local == 0 and direction == WEST:
+        if y == 0 and direction == WEST:
             return True
-        if x_local == 9 and direction == NORTH:
+        if x == 9 and direction == NORTH:
             return True
-        if y_local == 9 and direction == EAST:
+        if y == 9 and direction == EAST:
             return True
 
         return False
 
-    def is_dirty(self, grid, x_local, y_local):
+    def is_dirty(self, grid, x, y):
         """
         percept to see if the current cell is dirty
 
         :param grid: the grid, an nxn array, being used
-        :param x_local: the x_location of the agent
-        :param y_local: the y_location of the agent
+        :param x: the x_location of the agent
+        :param y: the y_location of the agent
         :return:
             True, if the location of the grid contains 'dirty'
             False, otherwise
         """
-        if grid[x_local][y_local] == DIRTY:
+        if grid[x][y] == DIRTY:
             return True
         else:
             return False
 
-    # actions:
-
-    def turn_right(self, direction):
+    def turn_right(self, grid_object=None, x=-1, y=-1, direction=None):
         """
         function that turns the direction of the agent 90 deg clockwise
 
@@ -115,18 +113,19 @@ class Agent(ABC):
         :return:
             the new direction of the agent, or ERROR
         """
+        new_direction = direction
         if direction == NORTH:
-            return EAST
+            new_direction = EAST
         elif direction == EAST:
-            return SOUTH
+            new_direction = SOUTH
         elif direction == SOUTH:
-            return WEST
+            new_direction = WEST
         elif direction == WEST:
-            return NORTH
+            new_direction = NORTH
 
-        return 'ERROR'
+        return {'action': TURN, 'data': new_direction}
 
-    def turn_left(self, direction):
+    def turn_left(self, grid_object=None, x=-1, y=-1, direction=None):
         """
         function that turns the direction of the agent 90 deg counterclockwise
 
@@ -134,40 +133,42 @@ class Agent(ABC):
         :return:
             the new direction of the agent, or ERROR
         """
+        new_direction = direction
         if direction == NORTH:
-            return WEST
+            new_direction = WEST
         elif direction == EAST:
-            return NORTH
+            new_direction = NORTH
         elif direction == SOUTH:
-            return EAST
+            new_direction = EAST
         elif direction == WEST:
-            return SOUTH
+            new_direction = SOUTH
 
-        return 'ERROR'
+        return {'action': TURN, 'data': new_direction}
 
-    def clean_square(self, grid_object, x_local, y_local):
+    def clean_square(self, grid_object=None, x=-1, y=-1, direction=None):
         """
         cleans a cell of the grid
 
         :param grid_object: the grid object
-        :param x_local: the x location to be cleaned
-        :param y_local: the y location to be cleaned
+        :param x: the x location to be cleaned
+        :param y: the y location to be cleaned
         :return:
 
         None
         """
-        grid_object.clean_cell(x_local, y_local)
+        grid_object.clean_cell(x, y)
+        return {'action': CLEAN_SQUARE, 'data': None}
 
-    def turn_off(self):
+    def turn_off(self, grid_object=None, x=-1, y=-1, direction=None):
         """
         a function that concludes the agent's experiment by returning the # of actions
 
         :return:
             True
         """
-        return True
+        return {'action': TURN_OFF, 'data': None}
 
-    def move_forward(self, x, y, direction):
+    def move_forward(self, grid_object=None, x=-1, y=-1, direction=None):
         """
         moves the agent forward by 1 cell in the direction it is facing
 
@@ -177,32 +178,29 @@ class Agent(ABC):
         :return:
             the new x, y coordinates of the agent
         """
+        new_x = x
+        new_y = y
+
         if direction == EAST:
-            return x, y + 1
+            new_y += 1
 
         if direction == NORTH:
-            return x + 1, y
+            new_x += 1
 
         if direction == WEST:
-            return x, y - 1
+            new_y -= 1
 
         if direction == SOUTH:
-            return x - 1, y
+            new_x -= 1
+
+        return {'action': MOVE_FORWARD, 'data': (new_x, new_y)}
 
 
 ######################################
-# Simple Reflex Agent ############
+# Simple Reflex Agent ################
 ######################################
 
 class SimpleReflexAgent(Agent):
-    """TODO: agent that only turns right regardless of direction (unknown)"""
-    """
-    This shouldn't be considered 'memory' because the agent has no ability to store information
-    it only uses that information atomically to make a decision (aka receives info from percept, 
-    makes a move and 'forgets' what it just learned
-    ...
-    maybe it knows NORTH, EAST, SOUTH, and WEST? 
-    """
 
     def __init__(self):
         pass
@@ -218,22 +216,21 @@ class SimpleReflexAgent(Agent):
         :return:
             a dictionary with one key communicating the action taken and the other any necessary data
         """
-        if self.is_dirty(grid_object.grid, x, y):
-            self.clean_square(grid_object, x, y)
-            # print('cleaning square')
-            return {'action': CLEAN_SQUARE, 'data': None}
+        is_dirty = self.is_dirty(grid_object.grid, x, y)
+        is_home = self.is_home(x, y)
+        is_wall = self.is_wall(grid_object, x, y, direction)
 
-        elif self.is_home(x, y) and self.is_wall(grid_object, x, y, direction):
-            self.turn_off()
-            return {'action': TURN_OFF, 'data': None}
+        if is_dirty:
+            return self.clean_square(grid_object=grid_object, x=x, y=y)
 
-        elif self.is_wall(grid_object, x, y, direction):
-            new_direction = self.turn_right(direction)
-            return {'action': TURN, 'data': new_direction}
+        if is_home and is_wall:
+            return self.turn_off()
 
-        else:
-            new_x, new_y = self.move_forward(x, y, direction)
-            return {'action': MOVE_FORWARD, 'data': (new_x, new_y)}
+        if is_wall:
+            return self.turn_right(direction=direction)
+
+        if not is_wall:
+            return self.move_forward(x=x, y=y, direction=direction)
 
 
 ######################################
@@ -256,35 +253,28 @@ class RandomizedReflexAgent(Agent):
             a dictionary with one key communicating the action taken and the other any necessary data
         """
         if self.is_dirty(grid_object.grid, x, y):
-            self.clean_square(grid_object, x, y)
-            return {'action': CLEAN_SQUARE, 'data': None}
-
-        elif self.is_wall(grid_object, x, y, direction):
+            return self.clean_square(grid_object=grid_object, x=x, y=y)
+        elif self.is_wall(grid_object, x, y, direction=direction):
             if random.randint(0, 1) == 1:
-                new_direction = self.turn_right(direction)
+                return self.turn_right(direction=direction)
             else:
-                new_direction = self.turn_left(direction)
-
-            return {'action': TURN, 'data': new_direction}
-
+                return self.turn_left(direction=direction)
         else:
             if random.randint(0, 10) >= 8:
                 if random.randint(0, 1) == 1:
-                    new_direction = self.turn_right(direction)
+                    return self.turn_right(direction=direction)
                 else:
-                    new_direction = self.turn_left(direction)
-                return {'action': TURN, 'data': new_direction}
-            new_x, new_y = self.move_forward(x, y, direction)
-            return {'action': MOVE_FORWARD, 'data': (new_x, new_y)}
+                    return self.turn_left(direction=direction)
+            return self.move_forward(x=x, y=y, direction=direction)
 
 
 ######################################
 # Model Based Reflex Agent ###########
 ######################################
-class ModelBasedReflexAgent(Agent):
+class ModelBasedReflexAgentSimple(Agent):
 
     def __init__(self):
-        self.turn_direction = RIGHT
+        self.turn_direction = RIGHT  # either RIGHT or LEFT
         self.just_saw_wall = False
 
     def take_turn(self, grid_object, x, y, direction):
@@ -298,35 +288,112 @@ class ModelBasedReflexAgent(Agent):
         :return:
             a dictionary with one key communicating the action taken and the other any necessary data
         """
-        if self.just_saw_wall and self.is_wall(grid_object, x, y, direction) and not self.is_dirty(
-                grid_object.grid, x, y):
-            self.turn_off()
-            return {'action': TURN_OFF, 'data': None}
-        elif self.just_saw_wall and self.is_dirty(grid_object.grid, x, y):
-            if self.turn_direction == RIGHT:
-                new_direction = self.turn_right(direction)
-                self.turn_direction = LEFT
+        is_wall = self.is_wall(grid_object, x, y, direction)
+        is_dirty = self.is_dirty(grid_object.grid, x, y)
 
-            else:  # if self.turn_direction == LEFT:
-                new_direction = self.turn_left(direction)
-                self.turn_direction = RIGHT
+        if self.just_saw_wall and is_wall and not is_dirty:
+            return self.turn_off()
 
+        if self.just_saw_wall and is_dirty and self.turn_direction == RIGHT:
             self.just_saw_wall = False
-            return {'action': TURN, 'data': new_direction}
+            self.turn_direction = LEFT
+            return self.turn_right(direction=direction)
+        
+        if self.just_saw_wall and is_dirty and not self.turn_direction == RIGHT:
+            self.just_saw_wall = False
+            self.turn_direction = RIGHT
+            return self.turn_left(direction=direction)
 
-        elif self.is_dirty(grid_object.grid, x, y):
-            self.clean_square(grid_object, x, y)
-            return {'action': CLEAN_SQUARE, 'data': None}
+        if is_dirty:
+            return self.clean_square(grid_object=grid_object, x=x, y=y)
 
-        elif self.is_wall(grid_object, x, y, direction):
-            if self.turn_direction == RIGHT:
-                new_direction = self.turn_right(direction)
-            else:  # if self.turn_direction == LEFT:
-                new_direction = self.turn_left(direction)
-
+        if is_wall and self.turn_direction == RIGHT:
             self.just_saw_wall = True
-            return {'action': TURN, 'data': new_direction}
+            return self.turn_right(direction=direction)
 
-        else:
-            new_x, new_y = self.move_forward(x, y, direction)
-            return {'action': MOVE_FORWARD, 'data': (new_x, new_y)}
+        if is_wall and not self.turn_direction == RIGHT:
+            self.just_saw_wall = True
+            return self.turn_left(direction=direction)
+
+        if not is_wall:
+            return self.move_forward(x=x, y=y, direction=direction)
+
+
+######################################
+# Model Based Reflex Agent ###########
+######################################
+class ModelBasedReflexAgent(Agent):
+
+    def __init__(self):
+        self.memory = (0, 0, 0)
+
+    def take_turn(self, grid_object, x, y, direction):
+        """
+        a sequence of IF statements that dictates how the agent moves. (deterministic)
+
+        :param grid_object: the grid object being used
+        :param x: the x_location of the agent
+        :param y: the y_location of the agent
+        :param direction: the direction of the agent
+        :return:
+            a dictionary with one key communicating the action taken and the other any necessary data
+        """
+        internal_state = (
+            int(self.is_dirty(grid_object.grid, x, y)),
+            int(self.is_home(x, y)),
+            int(self.is_wall(grid_object, x, y, direction)),
+            self.memory[0],
+            self.memory[1],
+            self.memory[2],
+        )
+        rules = [
+            # internal state -> [new memory, action_func]
+            [(1, 0, 0, 1, 0, 0), (1,0,0), self.clean_square],
+            [(1, 0, 1, 1, 0, 0), (1,0,0), self.clean_square],
+            [(1, 1, 0, 1, 0, 0), (1,0,0), self.clean_square],
+            [(1, 1, 1, 1, 0, 0), (1,0,0), self.clean_square],
+            [(1, 0, 0, 0, 0, 0), (0,0,0), self.clean_square],
+            [(1, 0, 1, 0, 0, 0), (0,0,0), self.clean_square],
+            [(1, 1, 0, 0, 0, 0), (0,0,0), self.clean_square],
+            [(1, 1, 1, 0, 0, 0), (0,0,0), self.clean_square],
+            [(1, 0, 0, 0, 0, 1), (0,0,1), self.clean_square],
+            [(1, 0, 1, 0, 0, 1), (0,0,1), self.clean_square],
+            [(1, 0, 0, 1, 0, 1), (1,0,1), self.clean_square],
+            [(1, 0, 1, 1, 0, 1), (1,0,1), self.clean_square],
+            [(0, 0, 0, 0, 0, 0), (0,0,0), self.move_forward],
+            [(0, 1, 0, 0, 0, 0), (0,0,0), self.move_forward],
+            [(0, 0, 0, 1, 0, 0), (1,0,0), self.move_forward],
+            [(0, 1, 0, 1, 0, 0), (1,0,0), self.move_forward],
+            [(0, 0, 0, 0, 1, 0), (0,0,1), self.move_forward],
+            [(0, 1, 0, 0, 1, 0), (0,0,1), self.move_forward],
+            [(0, 0, 0, 1, 1, 0), (1,0,1), self.move_forward],
+            [(0, 1, 0, 1, 1, 0), (1,0,1), self.move_forward],
+            [(0, 0, 1, 1, 1, 0), (0,1,1), self.turn_right],
+            [(0, 0, 1, 0, 1, 1), (0,1,0), self.turn_right],
+            [(0, 0, 1, 0, 0, 0), (0,1,0), self.turn_right],
+            [(0, 0, 0, 0, 0, 1), (1,0,0), self.turn_right],
+            [(0, 0, 1, 0, 0, 1), (1,0,0), self.turn_right],
+            [(0, 1, 0, 0, 0, 1), (1,0,0), self.turn_right],
+            [(0, 0, 1, 1, 0, 0), (1,1,0), self.turn_left],
+            [(0, 0, 0, 1, 0, 1), (0,0,0), self.turn_left],
+            [(0, 0, 1, 1, 0, 1), (0,0,0), self.turn_left],
+            [(0, 1, 0, 1, 0, 1), (0,0,0), self.turn_left],
+            [(0, 1, 1, 0, 0, 0), (0,1,1), self.turn_off],
+            [(0, 1, 1, 0, 0, 1), (0,1,1), self.turn_off],
+            [(0, 1, 1, 0, 1, 0), (0,1,1), self.turn_off],
+            [(0, 1, 1, 0, 1, 1), (0,1,1), self.turn_off],
+            [(0, 1, 1, 1, 0, 0), (0,1,1), self.turn_off],
+            [(0, 1, 1, 1, 0, 1), (0,1,1), self.turn_off],
+            [(0, 1, 1, 1, 1, 0), (0,1,1), self.turn_off],
+            [(0, 1, 1, 1, 1, 1), (0,1,1), self.turn_off],
+        ]
+
+        for if_then_rule in rules:
+            if internal_state == if_then_rule[0]:
+                self.memory = if_then_rule[1]
+                return if_then_rule[2](
+                    grid_object=grid_object,
+                    x=x,
+                    y=y,
+                    direction=direction
+                )

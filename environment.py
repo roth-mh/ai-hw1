@@ -22,5 +22,6 @@ class Environment:
         self.grid[x][y] = CLEAN
 
 
-room = Environment(10, EMPTY)
-room.print_grid()
+if __name__ == "__main__":
+    room = Environment(10, EMPTY)
+    room.print_grid()

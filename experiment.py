@@ -1,5 +1,5 @@
 """an experiment class to run the vacuum cleaning problem"""
-from agents import SimpleReflexAgent, RandomizedReflexAgent, ModelBasedReflexAgent
+from agents import SimpleReflexAgent, RandomizedReflexAgent, ModelBasedReflexAgentSimple, ModelBasedReflexAgent
 from constants import NORTH, TURN, MOVE_FORWARD, CLEAN_SQUARE, ROOM, EMPTY, TURN_OFF
 from environment import Environment
 
@@ -15,39 +15,47 @@ class Experiment:
         self.turns = 0
 
     def run_experiment(self):
-        while self.turns < 200:
-            self.turns += 1
+        while self.num_actions < 500:
+            self.num_actions += 1
             action_dict = self.agent.take_turn(self.environment, self.agent_x, self.agent_y, self.direction)
             if action_dict['action'] == TURN:
-                self.num_actions += 1
                 self.direction = action_dict['data']
-            elif action_dict['action'] == CLEAN_SQUARE:
-                self.num_actions += 1
             elif action_dict['action'] == MOVE_FORWARD:
-                self.num_actions += 1
                 self.agent_x = action_dict['data'][0]
                 self.agent_y = action_dict['data'][1]
-                print(f"new x: {self.agent_x}, new y: {self.agent_y}")
             elif action_dict['action'] == TURN_OFF:
-                self.num_actions += 1
                 break
 
-        # self.agent.turn_off()
-        self.num_actions += 1
+        return self.environment.clean_cells, self.num_actions
+    
+    def print_grid(self):
         self.environment.print_grid()
-        return self.environment.clean_cells, self.turns, self.num_actions
 
 
-agent1 = SimpleReflexAgent()
-agent2 = RandomizedReflexAgent()
-agent3 = ModelBasedReflexAgent()
+def single_run(agent, agent_name, env_type=EMPTY):
+    env_room = Environment(10, env_type)
+    room_exp = Experiment(agent=agent, environment=env_room)
+    (clean_cells, num_actions) = room_exp.run_experiment()
+    print(f"Experiment on {agent_name} in `{env_type}` environment:")
+    print(f"\tCells cleaned: {clean_cells}")
+    print(f"\tActions taken: {num_actions}")
+    print("Grid after experiment completion:")
+    room_exp.print_grid()
 
-env_room = Environment(10, ROOM)
-room_exp = Experiment(agent=agent3, environment=env_room)
 
-env_grid = Environment(10, EMPTY)
-grid_exp = Experiment(agent=agent1, environment=env_grid)
+if __name__ == "__main__":
+    print("--------------------------------------------")
+    print("          Empty Grid Experiments")
+    print("--------------------------------------------\n")
+    single_run(SimpleReflexAgent(), agent_name="Simple Reflex Agent", env_type=EMPTY)
+    single_run(RandomizedReflexAgent(), agent_name="Randomized Agent", env_type=EMPTY)
+    single_run(ModelBasedReflexAgentSimple(), agent_name="Model Based Agent", env_type=EMPTY)
+    single_run(ModelBasedReflexAgent(), agent_name="Model Based Agent 2", env_type=EMPTY)
 
-print(f"ROOM experiment on randomized agent results: {room_exp.run_experiment()}")
-
-# print(f"GRID experiment on randomized agent results: {grid_exp.run_experiment()}")
+    print("--------------------------------------------")
+    print("          ROOM Grid Experiments")
+    print("--------------------------------------------\n")
+    single_run(SimpleReflexAgent(), agent_name="Simple Reflex Agent", env_type=ROOM)
+    single_run(RandomizedReflexAgent(), agent_name="Randomized Agent", env_type=ROOM)
+    single_run(ModelBasedReflexAgentSimple(), agent_name="Model Based Agent", env_type=ROOM)
+    single_run(ModelBasedReflexAgent(), agent_name="Model Based Agent 2", env_type=ROOM)
