@@ -3,12 +3,23 @@
 import random
 from abc import ABC
 
-from constants import EAST, NORTH, WEST, SOUTH, DIRTY, MOVE_FORWARD, TURN, CLEAN_SQUARE, RIGHT, LEFT, TURN_OFF, \
-    ROOM
+from constants import (
+    EAST,
+    NORTH,
+    WEST,
+    SOUTH,
+    DIRTY,
+    MOVE_FORWARD,
+    TURN,
+    CLEAN_SQUARE,
+    RIGHT,
+    LEFT,
+    TURN_OFF,
+    ROOM,
+)
 
 
 class Agent(ABC):
-
     def take_turn(self, grid_object, x, y, direction):
         pass
 
@@ -123,7 +134,7 @@ class Agent(ABC):
         elif direction == WEST:
             new_direction = NORTH
 
-        return {'action': TURN, 'data': new_direction}
+        return {"action": TURN, "data": new_direction}
 
     def turn_left(self, grid_object=None, x=-1, y=-1, direction=None):
         """
@@ -143,7 +154,7 @@ class Agent(ABC):
         elif direction == WEST:
             new_direction = SOUTH
 
-        return {'action': TURN, 'data': new_direction}
+        return {"action": TURN, "data": new_direction}
 
     def clean_square(self, grid_object=None, x=-1, y=-1, direction=None):
         """
@@ -157,7 +168,7 @@ class Agent(ABC):
         None
         """
         grid_object.clean_cell(x, y)
-        return {'action': CLEAN_SQUARE, 'data': None}
+        return {"action": CLEAN_SQUARE, "data": None}
 
     def turn_off(self, grid_object=None, x=-1, y=-1, direction=None):
         """
@@ -166,7 +177,7 @@ class Agent(ABC):
         :return:
             True
         """
-        return {'action': TURN_OFF, 'data': None}
+        return {"action": TURN_OFF, "data": None}
 
     def move_forward(self, grid_object=None, x=-1, y=-1, direction=None):
         """
@@ -193,15 +204,13 @@ class Agent(ABC):
         if direction == SOUTH:
             new_x -= 1
 
-        return {'action': MOVE_FORWARD, 'data': (new_x, new_y)}
+        return {"action": MOVE_FORWARD, "data": (new_x, new_y)}
 
 
 ######################################
 # Simple Reflex Agent ################
 ######################################
-
 class SimpleReflexAgent(Agent):
-
     def __init__(self):
         pass
 
@@ -237,7 +246,6 @@ class SimpleReflexAgent(Agent):
 # Randomized Reflex Agent ############
 ######################################
 class RandomizedReflexAgent(Agent):
-
     def __init__(self):
         pass
 
@@ -272,7 +280,6 @@ class RandomizedReflexAgent(Agent):
 # Model Based Reflex Agent ###########
 ######################################
 class ModelBasedReflexAgentSimple(Agent):
-
     def __init__(self):
         self.turn_direction = RIGHT  # either RIGHT or LEFT
         self.just_saw_wall = False
@@ -298,7 +305,7 @@ class ModelBasedReflexAgentSimple(Agent):
             self.just_saw_wall = False
             self.turn_direction = LEFT
             return self.turn_right(direction=direction)
-        
+
         if self.just_saw_wall and is_dirty and not self.turn_direction == RIGHT:
             self.just_saw_wall = False
             self.turn_direction = RIGHT
@@ -323,7 +330,6 @@ class ModelBasedReflexAgentSimple(Agent):
 # Model Based Reflex Agent ###########
 ######################################
 class ModelBasedReflexAgent(Agent):
-
     def __init__(self):
         self.memory = (0, 0, 0)
 
@@ -348,52 +354,49 @@ class ModelBasedReflexAgent(Agent):
         )
         rules = [
             # internal state -> [new memory, action_func]
-            [(1, 0, 0, 1, 0, 0), (1,0,0), self.clean_square],
-            [(1, 0, 1, 1, 0, 0), (1,0,0), self.clean_square],
-            [(1, 1, 0, 1, 0, 0), (1,0,0), self.clean_square],
-            [(1, 1, 1, 1, 0, 0), (1,0,0), self.clean_square],
-            [(1, 0, 0, 0, 0, 0), (0,0,0), self.clean_square],
-            [(1, 0, 1, 0, 0, 0), (0,0,0), self.clean_square],
-            [(1, 1, 0, 0, 0, 0), (0,0,0), self.clean_square],
-            [(1, 1, 1, 0, 0, 0), (0,0,0), self.clean_square],
-            [(1, 0, 0, 0, 0, 1), (0,0,1), self.clean_square],
-            [(1, 0, 1, 0, 0, 1), (0,0,1), self.clean_square],
-            [(1, 0, 0, 1, 0, 1), (1,0,1), self.clean_square],
-            [(1, 0, 1, 1, 0, 1), (1,0,1), self.clean_square],
-            [(0, 0, 0, 0, 0, 0), (0,0,0), self.move_forward],
-            [(0, 1, 0, 0, 0, 0), (0,0,0), self.move_forward],
-            [(0, 0, 0, 1, 0, 0), (1,0,0), self.move_forward],
-            [(0, 1, 0, 1, 0, 0), (1,0,0), self.move_forward],
-            [(0, 0, 0, 0, 1, 0), (0,0,1), self.move_forward],
-            [(0, 1, 0, 0, 1, 0), (0,0,1), self.move_forward],
-            [(0, 0, 0, 1, 1, 0), (1,0,1), self.move_forward],
-            [(0, 1, 0, 1, 1, 0), (1,0,1), self.move_forward],
-            [(0, 0, 1, 1, 1, 0), (0,1,1), self.turn_right],
-            [(0, 0, 1, 0, 1, 1), (0,1,0), self.turn_right],
-            [(0, 0, 1, 0, 0, 0), (0,1,0), self.turn_right],
-            [(0, 0, 0, 0, 0, 1), (1,0,0), self.turn_right],
-            [(0, 0, 1, 0, 0, 1), (1,0,0), self.turn_right],
-            [(0, 1, 0, 0, 0, 1), (1,0,0), self.turn_right],
-            [(0, 0, 1, 1, 0, 0), (1,1,0), self.turn_left],
-            [(0, 0, 0, 1, 0, 1), (0,0,0), self.turn_left],
-            [(0, 0, 1, 1, 0, 1), (0,0,0), self.turn_left],
-            [(0, 1, 0, 1, 0, 1), (0,0,0), self.turn_left],
-            [(0, 1, 1, 0, 0, 0), (0,1,1), self.turn_off],
-            [(0, 1, 1, 0, 0, 1), (0,1,1), self.turn_off],
-            [(0, 1, 1, 0, 1, 0), (0,1,1), self.turn_off],
-            [(0, 1, 1, 0, 1, 1), (0,1,1), self.turn_off],
-            [(0, 1, 1, 1, 0, 0), (0,1,1), self.turn_off],
-            [(0, 1, 1, 1, 0, 1), (0,1,1), self.turn_off],
-            [(0, 1, 1, 1, 1, 0), (0,1,1), self.turn_off],
-            [(0, 1, 1, 1, 1, 1), (0,1,1), self.turn_off],
+            [(1, 0, 0, 1, 0, 0), (1, 0, 0), self.clean_square],
+            [(1, 0, 1, 1, 0, 0), (1, 0, 0), self.clean_square],
+            [(1, 1, 0, 1, 0, 0), (1, 0, 0), self.clean_square],
+            [(1, 1, 1, 1, 0, 0), (1, 0, 0), self.clean_square],
+            [(1, 0, 0, 0, 0, 0), (0, 0, 0), self.clean_square],
+            [(1, 0, 1, 0, 0, 0), (0, 0, 0), self.clean_square],
+            [(1, 1, 0, 0, 0, 0), (0, 0, 0), self.clean_square],
+            [(1, 1, 1, 0, 0, 0), (0, 0, 0), self.clean_square],
+            [(1, 0, 0, 0, 0, 1), (0, 0, 1), self.clean_square],
+            [(1, 0, 1, 0, 0, 1), (0, 0, 1), self.clean_square],
+            [(1, 0, 0, 1, 0, 1), (1, 0, 1), self.clean_square],
+            [(1, 0, 1, 1, 0, 1), (1, 0, 1), self.clean_square],
+            [(0, 0, 0, 0, 0, 0), (0, 0, 0), self.move_forward],
+            [(0, 1, 0, 0, 0, 0), (0, 0, 0), self.move_forward],
+            [(0, 0, 0, 1, 0, 0), (1, 0, 0), self.move_forward],
+            [(0, 1, 0, 1, 0, 0), (1, 0, 0), self.move_forward],
+            [(0, 0, 0, 0, 1, 0), (0, 0, 1), self.move_forward],
+            [(0, 1, 0, 0, 1, 0), (0, 0, 1), self.move_forward],
+            [(0, 0, 0, 1, 1, 0), (1, 0, 1), self.move_forward],
+            [(0, 1, 0, 1, 1, 0), (1, 0, 1), self.move_forward],
+            [(0, 0, 1, 1, 1, 0), (0, 1, 1), self.turn_right],
+            [(0, 0, 1, 0, 1, 1), (0, 1, 0), self.turn_right],
+            [(0, 0, 1, 0, 0, 0), (0, 1, 0), self.turn_right],
+            [(0, 0, 0, 0, 0, 1), (1, 0, 0), self.turn_right],
+            [(0, 0, 1, 0, 0, 1), (1, 0, 0), self.turn_right],
+            [(0, 1, 0, 0, 0, 1), (1, 0, 0), self.turn_right],
+            [(0, 0, 1, 1, 0, 0), (1, 1, 0), self.turn_left],
+            [(0, 0, 0, 1, 0, 1), (0, 0, 0), self.turn_left],
+            [(0, 0, 1, 1, 0, 1), (0, 0, 0), self.turn_left],
+            [(0, 1, 0, 1, 0, 1), (0, 0, 0), self.turn_left],
+            [(0, 1, 1, 0, 0, 0), (0, 1, 1), self.turn_off],
+            [(0, 1, 1, 0, 0, 1), (0, 1, 1), self.turn_off],
+            [(0, 1, 1, 0, 1, 0), (0, 1, 1), self.turn_off],
+            [(0, 1, 1, 0, 1, 1), (0, 1, 1), self.turn_off],
+            [(0, 1, 1, 1, 0, 0), (0, 1, 1), self.turn_off],
+            [(0, 1, 1, 1, 0, 1), (0, 1, 1), self.turn_off],
+            [(0, 1, 1, 1, 1, 0), (0, 1, 1), self.turn_off],
+            [(0, 1, 1, 1, 1, 1), (0, 1, 1), self.turn_off],
         ]
 
         for if_then_rule in rules:
             if internal_state == if_then_rule[0]:
                 self.memory = if_then_rule[1]
                 return if_then_rule[2](
-                    grid_object=grid_object,
-                    x=x,
-                    y=y,
-                    direction=direction
+                    grid_object=grid_object, x=x, y=y, direction=direction
                 )

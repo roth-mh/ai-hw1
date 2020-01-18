@@ -2,11 +2,20 @@
 from abc import ABC
 from random import random
 
-from constants import WALL, EAST, NORTH, WEST, SOUTH, DIRTY, MOVE_FORWARD, TURN, CLEAN_SQUARE
+from constants import (
+    WALL,
+    EAST,
+    NORTH,
+    WEST,
+    SOUTH,
+    DIRTY,
+    MOVE_FORWARD,
+    TURN,
+    CLEAN_SQUARE,
+)
 
 
 class Agent(ABC):
-
     def take_turn(self, grid_object, x, y, direction):
         pass
 
@@ -71,22 +80,22 @@ class SimpleReflexAgent(Agent):
         # TODO: check all directions
         if direction == EAST:
             if grid[x_local][y_local + 1] == WALL:
-                print('direction is east')
+                print("direction is east")
                 return True
 
         if direction == NORTH:
             if grid[x_local + 1][y_local] == WALL:
-                print('direction is north')
+                print("direction is north")
                 return True
 
         if direction == WEST:
             if grid[x_local][y_local - 1] == WALL:
-                print('direction is west')
+                print("direction is west")
                 return True
 
         if direction == SOUTH:
             if grid[x_local - 1][y_local] == WALL:
-                print('direction is south')
+                print("direction is south")
                 return True
 
         return False
@@ -113,7 +122,7 @@ class SimpleReflexAgent(Agent):
         :return:
             the agent's number of actions
         """
-        print('turning off')
+        print("turning off")
         self.num_actions += 1
         return self.num_actions
 
@@ -158,7 +167,7 @@ class SimpleReflexAgent(Agent):
         elif direction == WEST:
             return NORTH
 
-        return 'ERROR'
+        return "ERROR"
 
     def take_turn(self, grid_object, x, y, direction):
         """
@@ -173,18 +182,18 @@ class SimpleReflexAgent(Agent):
         """
         if self.is_dirty(grid_object.grid, x, y):
             self.clean_square(grid_object, x, y)
-            print('cleaning square')
-            return {'action': CLEAN_SQUARE, 'data': None}
+            print("cleaning square")
+            return {"action": CLEAN_SQUARE, "data": None}
 
         elif self.is_wall(grid_object.grid, x, y, direction):
             new_direction = self.turn(direction)
-            print(f'turning; new direction = {new_direction}')
-            return {'action': TURN, 'data': new_direction}
+            print(f"turning; new direction = {new_direction}")
+            return {"action": TURN, "data": new_direction}
 
         else:
             # r = random.randint(1)
             if random.randint(1) == 1:
                 pass
             new_x, new_y = self.move_forward(x, y, direction)
-            print(f'moving forward; new location: x = {new_x}, y = {new_y}')
-            return {'action': MOVE_FORWARD, 'data': (new_x, new_y)}
+            print(f"moving forward; new location: x = {new_x}, y = {new_y}")
+            return {"action": MOVE_FORWARD, "data": (new_x, new_y)}

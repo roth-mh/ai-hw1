@@ -15,7 +15,7 @@ class Environment:
     def print_grid(self):
         """pretty prints a grid"""
         for i in range(len(self.grid) - 1, -1, -1):
-            print(str(self.grid[i]) + '\n')
+            print(str(self.grid[i]) + "\n")
 
     def clean_cell(self, x, y):
         self.clean_cells += 1
