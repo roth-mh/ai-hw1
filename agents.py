@@ -80,6 +80,7 @@ class Agent(ABC):
             if x == 5 and y == 9 and direction == SOUTH:
                 return False
 
+            # the inner walls
             if x == 4 and direction == NORTH:
                 return True
             if x == 5 and direction == SOUTH:
@@ -89,6 +90,7 @@ class Agent(ABC):
             if x == 5 and direction == WEST:
                 return True
 
+        # the outer walls
         if x == 0 and direction == SOUTH:
             return True
         if y == 0 and direction == WEST:
@@ -165,7 +167,7 @@ class Agent(ABC):
         :param y: the y location to be cleaned
         :return:
 
-        None
+            action dictionary
         """
         grid_object.clean_cell(x, y)
         return {"action": CLEAN_SQUARE, "data": None}
@@ -175,7 +177,7 @@ class Agent(ABC):
         a function that concludes the agent's experiment by returning the # of actions
 
         :return:
-            True
+            action dictionary
         """
         return {"action": TURN_OFF, "data": None}
 
@@ -263,13 +265,14 @@ class RandomizedReflexAgent(Agent):
         if self.is_dirty(grid_object.grid, x, y):
             return self.clean_square(grid_object=grid_object, x=x, y=y)
         elif self.is_wall(grid_object, x, y, direction=direction):
-            if random.randint(0, 1) == 1:
+            if random.randint(1, 10) >= 2:
                 return self.turn_right(direction=direction)
             else:
                 return self.turn_left(direction=direction)
         else:
-            if random.randint(0, 10) >= 8:
-                if random.randint(0, 1) == 1:
+            # favor moving forward over turning
+            if random.randint(1, 10) >= 9:
+                if random.randint(1, 10) >= 2:
                     return self.turn_right(direction=direction)
                 else:
                     return self.turn_left(direction=direction)
@@ -348,12 +351,14 @@ class ModelBasedReflexAgent(Agent):
             int(self.is_dirty(grid_object.grid, x, y)),
             int(self.is_home(x, y)),
             int(self.is_wall(grid_object, x, y, direction)),
-            self.memory[0],
-            self.memory[1],
-            self.memory[2],
+            self.memory[0],  # turn_dir
+            self.memory[1],  # jsw
+            self.memory[2],  # filled room
         )
         rules = [
             # internal state -> [new memory, action_func]
+
+            # if dirty --> clean
             [(1, 0, 0, 1, 0, 0), (1, 0, 0), self.clean_square],
             [(1, 0, 1, 1, 0, 0), (1, 0, 0), self.clean_square],
             [(1, 1, 0, 1, 0, 0), (1, 0, 0), self.clean_square],
@@ -366,6 +371,7 @@ class ModelBasedReflexAgent(Agent):
             [(1, 0, 1, 0, 0, 1), (0, 0, 1), self.clean_square],
             [(1, 0, 0, 1, 0, 1), (1, 0, 1), self.clean_square],
             [(1, 0, 1, 1, 0, 1), (1, 0, 1), self.clean_square],
+
             [(0, 0, 0, 0, 0, 0), (0, 0, 0), self.move_forward],
             [(0, 1, 0, 0, 0, 0), (0, 0, 0), self.move_forward],
             [(0, 0, 0, 1, 0, 0), (1, 0, 0), self.move_forward],
@@ -374,16 +380,19 @@ class ModelBasedReflexAgent(Agent):
             [(0, 1, 0, 0, 1, 0), (0, 0, 1), self.move_forward],
             [(0, 0, 0, 1, 1, 0), (1, 0, 1), self.move_forward],
             [(0, 1, 0, 1, 1, 0), (1, 0, 1), self.move_forward],
+
             [(0, 0, 1, 1, 1, 0), (0, 1, 1), self.turn_right],
             [(0, 0, 1, 0, 1, 1), (0, 1, 0), self.turn_right],
             [(0, 0, 1, 0, 0, 0), (0, 1, 0), self.turn_right],
-            [(0, 0, 0, 0, 0, 1), (1, 0, 0), self.turn_right],
             [(0, 0, 1, 0, 0, 1), (1, 0, 0), self.turn_right],
+            [(0, 0, 0, 0, 0, 1), (1, 0, 0), self.turn_right],
             [(0, 1, 0, 0, 0, 1), (1, 0, 0), self.turn_right],
+
             [(0, 0, 1, 1, 0, 0), (1, 1, 0), self.turn_left],
             [(0, 0, 0, 1, 0, 1), (0, 0, 0), self.turn_left],
             [(0, 0, 1, 1, 0, 1), (0, 0, 0), self.turn_left],
             [(0, 1, 0, 1, 0, 1), (0, 0, 0), self.turn_left],
+
             [(0, 1, 1, 0, 0, 0), (0, 1, 1), self.turn_off],
             [(0, 1, 1, 0, 0, 1), (0, 1, 1), self.turn_off],
             [(0, 1, 1, 0, 1, 0), (0, 1, 1), self.turn_off],

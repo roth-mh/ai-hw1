@@ -1,5 +1,5 @@
 """an experiment class to run the vacuum cleaning problem"""
-from constants import NORTH, TURN, MOVE_FORWARD, CLEAN_SQUARE, TURN_OFF
+from constants import NORTH, TURN, MOVE_FORWARD, TURN_OFF
 
 
 class Experiment:
@@ -13,7 +13,7 @@ class Experiment:
         self.turns = 0
 
     def run_experiment(self):
-        while self.num_actions < 500:
+        while self.environment.clean_cells < 89:
             self.num_actions += 1
             action_dict = self.agent.take_turn(
                 self.environment, self.agent_x, self.agent_y, self.direction
