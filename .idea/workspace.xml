@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f25e6aaf-1280-4064-bf8a-a91e07fd3495" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/agents_in_empty.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents_in_room.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plot_graphs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/bin/f2py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/bin/f2py3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/bin/f2py3.6" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_graphs.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_graphs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run_exp.py" beforeDir="false" afterPath="$PROJECT_DIR$/run_exp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +68,7 @@
       <workItem from="1579306851293" duration="2376000" />
       <workItem from="1579402923323" duration="753000" />
       <workItem from="1579455903315" duration="3204000" />
-      <workItem from="1579470233956" duration="1295000" />
+      <workItem from="1579470233956" duration="1427000" />
     </task>
     <servers />
   </component>

@@ -14,7 +14,7 @@ def plot_relation(random_agent, simple_agent, model_agent, env_type):
     plt.plot('x', 'random', data=df, marker='', color='red', linewidth=2)
     plt.plot('x', 'simple', data=df, marker='', color='blue', linewidth=2)
     plt.plot('x', 'model', data=df, marker='', color='olive', linewidth=2)
-    plt.ylabel('cleaned cells')
+    plt.ylabel('average number of cleaned cells')
     plt.xlabel('number of actions')
     plt.title(f'Agents in {env_type}')
     plt.legend()

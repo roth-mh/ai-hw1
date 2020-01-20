@@ -32,7 +32,7 @@ def multiple_runs(agent, agent_name, env_type=EMPTY, num_runs=50):
         num_runs -= 1
 
         clean_cells, num_actions, list_of_clean_cells_at_each_step = single_run(agent, agent_name, env_type,
-                                                                                print_grid=False)
+                                                                                print_grid=True)
         list_of_simple_ratios.append((float(clean_cells / num_actions)))
         list_of_derived_ratios.append((float(clean_cells / num_actions) * clean_cells))
         list_of_num_actions.append(num_actions)
