@@ -2,16 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f25e6aaf-1280-4064-bf8a-a91e07fd3495" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/agents_in_empty.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agents_in_room.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_graphs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/f2py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/f2py3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/f2py3.6" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/agents.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obsolete.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/run_exp.py" beforeDir="false" afterPath="$PROJECT_DIR$/run_exp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,7 +44,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="settings.saveactions" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -61,7 +72,9 @@
       <workItem from="1579133133264" duration="1157000" />
       <workItem from="1579157518315" duration="1799000" />
       <workItem from="1579306851293" duration="2376000" />
-      <workItem from="1579402923323" duration="577000" />
+      <workItem from="1579402923323" duration="753000" />
+      <workItem from="1579455903315" duration="3204000" />
+      <workItem from="1579470233956" duration="1295000" />
     </task>
     <servers />
   </component>
@@ -73,18 +86,18 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="178" y="5" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1579403319721" />
-    <state x="141" y="39" key="SettingsEditor" timestamp="1579038192648">
+    <state x="141" y="39" key="SettingsEditor" timestamp="1579470212906">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="141" y="39" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1579038192648" />
-    <state x="294" y="234" key="com.intellij.ide.util.TipDialog" timestamp="1579402923307">
+    <state x="141" y="39" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1579470212906" />
+    <state x="294" y="234" key="com.intellij.ide.util.TipDialog" timestamp="1579470234131">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="294" y="234" key="com.intellij.ide.util.TipDialog/0.0.1280.800@0.0.1280.800" timestamp="1579402923307" />
-    <state x="217" y="131" width="845" height="538" key="find.popup" timestamp="1579307936111">
+    <state x="294" y="234" key="com.intellij.ide.util.TipDialog/0.0.1280.800@0.0.1280.800" timestamp="1579470234131" />
+    <state x="217" y="131" width="845" height="538" key="find.popup" timestamp="1579470195533">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="217" y="131" width="845" height="538" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1579307936111" />
+    <state x="217" y="131" width="845" height="538" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1579470195533" />
     <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1579038357984">
       <screen x="0" y="0" width="1280" height="800" />
     </state>

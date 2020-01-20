@@ -11,9 +11,10 @@ class Experiment:
         self.environment = environment
         self.num_actions = 0
         self.turns = 0
+        self.list_of_clean_cells_at_each_step = []
 
     def run_experiment(self):
-        while self.environment.clean_cells < 89:
+        while self.num_actions < 500:
             self.num_actions += 1
             action_dict = self.agent.take_turn(
                 self.environment, self.agent_x, self.agent_y, self.direction
@@ -24,9 +25,12 @@ class Experiment:
                 self.agent_x = action_dict["data"][0]
                 self.agent_y = action_dict["data"][1]
             elif action_dict["action"] == TURN_OFF:
+                self.list_of_clean_cells_at_each_step.append(self.environment.clean_cells)
                 break
 
-        return self.environment.clean_cells, self.num_actions
+            self.list_of_clean_cells_at_each_step.append(self.environment.clean_cells)
+
+        return self.environment.clean_cells, self.num_actions, self.list_of_clean_cells_at_each_step
 
     def print_grid(self):
         self.environment.print_grid()
