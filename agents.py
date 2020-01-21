@@ -265,14 +265,14 @@ class RandomizedReflexAgent(Agent):
         if self.is_dirty(grid_object.grid, x, y):
             return self.clean_square(grid_object=grid_object, x=x, y=y)
         elif self.is_wall(grid_object, x, y, direction=direction):
-            if random.randint(1, 10) >= 2:
+            if random.randint(1, 10) >= 3:
                 return self.turn_right(direction=direction)
             else:
                 return self.turn_left(direction=direction)
         else:
             # favor moving forward over turning
             if random.randint(1, 10) >= 9:
-                if random.randint(1, 10) >= 2:
+                if random.randint(1, 10) >= 3:
                     return self.turn_right(direction=direction)
                 else:
                     return self.turn_left(direction=direction)
